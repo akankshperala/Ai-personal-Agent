@@ -1,0 +1,384 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant light (&:where(.light, .light *));
+
+@theme {
+  --color-brand-primary: #8b5cf6;
+  --color-brand-secondary: #3b82f6;
+  --color-brand-accent: #f43f5e;
+}
+
+:root {
+  --background: #030712;
+  --foreground: #f3f4f6;
+  --sidebar-bg: #090d1a;
+  --border-color: rgba(255, 255, 255, 0.05);
+  --border-color-rich: rgba(255, 255, 255, 0.1);
+  --card-bg: rgba(255, 255, 255, 0.02);
+  --card-bg-premium-gradient: radial-gradient(120% 120% at 50% 10%, rgba(9, 13, 26, 0.75) 45%, rgba(139, 92, 246, 0.08) 100%);
+  --text-main: #cbd5e1; /* slate-300 */
+  --text-muted: #94a3b8; /* slate-400 */
+  --text-muted-darker: #64748b; /* slate-500 */
+  --text-header: #ffffff;
+  --glass-bg: rgba(9, 13, 26, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.05);
+  --grid-line: rgba(255, 255, 255, 0.015);
+}
+
+html.light {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --sidebar-bg: #ffffff;
+  --border-color: rgba(0, 0, 0, 0.08);
+  --border-color-rich: rgba(0, 0, 0, 0.12);
+  --card-bg: #ffffff;
+  --card-bg-premium-gradient: radial-gradient(120% 120% at 50% 10%, rgba(255, 255, 255, 0.85) 45%, rgba(139, 92, 246, 0.04) 100%);
+  --text-main: #334155; /* slate-700 */
+  --text-muted: #475569; /* slate-600 */
+  --text-muted-darker: #64748b; /* slate-500 */
+  --text-header: #0f172a;
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --grid-line: rgba(0, 0, 0, 0.02);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  overflow-x: hidden;
+  font-family: var(--font-geist-sans), Arial, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #030712;
+}
+::-webkit-scrollbar-thumb {
+  background: #1f2937;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #374151;
+}
+
+html.light ::-webkit-scrollbar-track {
+  background: var(--background);
+}
+html.light ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.1);
+}
+html.light ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Glassmorphism utilities */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.glass-premium {
+  background: var(--card-bg-premium-gradient);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+html.dark .glass-premium {
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #c7d2fe 55%, #818cf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+html.light .text-gradient {
+  background: linear-gradient(135deg, #0f172a 0%, #4338ca 55%, #6366f1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-purple-blue {
+  background: linear-gradient(135deg, #c084fc 0%, #818cf8 50%, #60a5fa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+html.light .text-gradient-purple-blue {
+  background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 50%, #2563eb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.grid-bg {
+  background-image: 
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Custom keyframes & utilities */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes float-delayed {
+  0%, 100% {
+    transform: translateY(-6px);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.25;
+    filter: blur(80px);
+  }
+  50% {
+    opacity: 0.45;
+    filter: blur(100px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float-delayed 8s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+/* Custom border animations */
+.glow-on-hover {
+  position: relative;
+  transition: all 0.3s ease;
+}
+.glow-on-hover::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(90deg, #8b5cf6, #3b82f6, #ec4899);
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.glow-on-hover:hover::after {
+  opacity: 1;
+}
+
+/* LIGHT MODE UTILITY OVERRIDES */
+html.light .bg-\[\#030712\] {
+  background-color: var(--background) !important;
+}
+html.light .bg-\[\#030712\]\/80 {
+  background-color: rgba(248, 250, 252, 0.85) !important;
+}
+html.light .bg-\[\#090d1a\] {
+  background-color: var(--sidebar-bg) !important;
+}
+html.light .bg-\[\#0a0f1d\] {
+  background-color: var(--sidebar-bg) !important;
+}
+html.light .bg-\[\#070b16\] {
+  background-color: var(--sidebar-bg) !important;
+}
+html.light .border-white\/5 {
+  border-color: var(--border-color) !important;
+}
+html.light .border-white\/10 {
+  border-color: var(--border-color-rich) !important;
+}
+html.light .bg-white\/\[0\.01\] {
+  background-color: rgba(0, 0, 0, 0.01) !important;
+}
+html.light .bg-white\/\[0\.02\] {
+  background-color: rgba(0, 0, 0, 0.02) !important;
+}
+html.light .bg-white\/\[0\.03\] {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+html.light .bg-white\/5 {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+}
+html.light .bg-white\/10 {
+  background-color: rgba(0, 0, 0, 0.08) !important;
+}
+html.light .hover\:bg-white\/5:hover {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+}
+html.light .hover\:bg-white\/\[0\.02\]:hover {
+  background-color: rgba(0, 0, 0, 0.02) !important;
+}
+html.light .hover\:bg-white\/\[0\.03\]:hover {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+html.light .hover\:bg-white\/10:hover {
+  background-color: rgba(0, 0, 0, 0.08) !important;
+}
+html.light .group-hover\:bg-white\/\[0\.02\]:hover {
+  background-color: rgba(0, 0, 0, 0.02) !important;
+}
+html.light .group-hover\:bg-white\/5:hover {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+}
+html.light .text-slate-200 {
+  color: var(--text-main) !important;
+}
+html.light .text-slate-300 {
+  color: var(--text-main) !important;
+}
+html.light .text-slate-400 {
+  color: var(--text-muted) !important;
+}
+html.light .text-slate-500 {
+  color: var(--text-muted-darker) !important;
+}
+html.light .text-white {
+  color: var(--text-header) !important;
+}
+html.light .hover\:text-white:hover {
+  color: var(--text-header) !important;
+}
+html.light .group-hover\:text-white:hover {
+  color: var(--text-header) !important;
+}
+
+/* Preserve white text on solid colored backgrounds */
+html.light .bg-purple-600,
+html.light .bg-purple-500,
+html.light .bg-rose-600,
+html.light .bg-rose-500,
+html.light .bg-amber-600,
+html.light .bg-amber-500,
+html.light .bg-emerald-600,
+html.light .bg-emerald-500,
+html.light .bg-indigo-600,
+html.light .bg-indigo-500,
+html.light .bg-blue-600,
+html.light .bg-blue-500,
+html.light .bg-gradient-to-tr {
+  color: #ffffff !important;
+}
+html.light .bg-purple-600 *,
+html.light .bg-purple-500 *,
+html.light .bg-rose-600 *,
+html.light .bg-rose-500 *,
+html.light .bg-amber-600 *,
+html.light .bg-amber-500 *,
+html.light .bg-emerald-600 *,
+html.light .bg-emerald-500 *,
+html.light .bg-indigo-600 *,
+html.light .bg-indigo-500 *,
+html.light .bg-blue-600 *,
+html.light .bg-blue-500 *,
+html.light .bg-gradient-to-tr * {
+  color: inherit;
+}
+html.light .bg-purple-600 .text-white,
+html.light .bg-purple-500 .text-white,
+html.light .bg-rose-600 .text-white,
+html.light .bg-rose-500 .text-white,
+html.light .bg-amber-600 .text-white,
+html.light .bg-amber-500 .text-white,
+html.light .bg-emerald-600 .text-white,
+html.light .bg-emerald-500 .text-white,
+html.light .bg-indigo-600 .text-white,
+html.light .bg-indigo-500 .text-white,
+html.light .bg-blue-600 .text-white,
+html.light .bg-blue-500 .text-white,
+html.light .bg-gradient-to-tr .text-white,
+html.light .bg-gradient-to-r .text-white {
+  color: #ffffff !important;
+}
+
+/* Background glows in light mode styling */
+html.light .bg-purple-900\/5 {
+  background-color: rgba(139, 92, 246, 0.015) !important;
+}
+html.light .bg-purple-900\/10 {
+  background-color: rgba(139, 92, 246, 0.02) !important;
+}
+html.light .bg-purple-900\/15 {
+  background-color: rgba(139, 92, 246, 0.03) !important;
+}
+html.light .bg-indigo-900\/5 {
+  background-color: rgba(99, 102, 241, 0.015) !important;
+}
+html.light .bg-indigo-900\/10 {
+  background-color: rgba(99, 102, 241, 0.02) !important;
+}
+html.light .bg-blue-900\/15 {
+  background-color: rgba(59, 130, 246, 0.02) !important;
+}
+
+/* Gradient overrides for light mode cards and headers */
+html.light .from-purple-900\/30 {
+  --tw-gradient-from: rgba(139, 92, 246, 0.08) !important;
+}
+html.light .via-indigo-900\/20 {
+  --tw-gradient-via: rgba(99, 102, 241, 0.05) !important;
+}
+html.light .to-blue-900\/10 {
+  --tw-gradient-to: rgba(59, 130, 246, 0.03) !important;
+}
+html.light .via-\[\#090d1a\] {
+  --tw-gradient-via: var(--sidebar-bg) !important;
+}
+html.light .via-\[\#0a0f1d\] {
+  --tw-gradient-via: var(--sidebar-bg) !important;
+}
+
+/* Slide down and fade in/out animations for toast notifications */
+@keyframes toast-in {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -24px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+@keyframes toast-out {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -24px) scale(0.95);
+  }
+}
+
+.animate-toast-in {
+  animation: toast-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-toast-out {
+  animation: toast-out 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
